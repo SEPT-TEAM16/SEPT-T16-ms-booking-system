@@ -13,7 +13,7 @@ public class DoctorAvailability {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private String doctorAvailabilityId;
-/*
+
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable=false)
     private Doctor doctor;
@@ -22,5 +22,5 @@ public class DoctorAvailability {
 
     //start time + 30 or 15
     private Date doctorAvailabilityEndTime;
-*/
+
 }
