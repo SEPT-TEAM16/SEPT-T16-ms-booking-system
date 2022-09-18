@@ -2,26 +2,25 @@ package com.rmit.septt16msbookingsystem.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Data
+@Table(name = "doctor_availability")
 public class DoctorAvailability {
 
     @Id
-    @Column(name="", nullable=false, unique=true)
-    private String doctorId;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private String doctorAvailabilityId;
 
-    @Column(name="", nullable=false, unique=true)
-    private String doctorName;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable=false)
+    private Doctor doctor;
 
-    @Column(name="", nullable=false, unique=true)
     private Date doctorAvailabilityStartTime;
 
-    @Column(name="", nullable=false, unique=true)
+    //start time + 30 or 15
     private Date doctorAvailabilityEndTime;
 
 }
