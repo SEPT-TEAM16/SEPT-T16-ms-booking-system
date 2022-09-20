@@ -18,9 +18,11 @@ public class DoctorAvailability {
     @JoinColumn(name = "doctor_id", nullable=false)
     private Doctor doctor;
 
+    @Column(name="start_time")
     private Date doctorAvailabilityStartTime;
 
     //start time + 30 or 15
+    @Column(name="end_time")
     private Date doctorAvailabilityEndTime;
 
 }

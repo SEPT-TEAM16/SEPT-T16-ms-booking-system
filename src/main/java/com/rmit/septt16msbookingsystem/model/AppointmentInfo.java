@@ -1,11 +1,10 @@
 package com.rmit.septt16msbookingsystem.model;
 
+import com.rmit.septt16msbookingsystem.constants.AppointmentStatus;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
-
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Data
@@ -14,21 +13,22 @@ public class AppointmentInfo {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private String apptId;
+    @Column(name = "id")
+    private String appointmentId;
 
-
-    private Date appt_date;
+    @Column(name="appt_date")
+    private Date appointmentStartDate;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable=false)
-   private Patient patient;
+    private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable=false)
     private Doctor doctor;
 
-    //approved, cancelled
-    private String appt_status;
+    @Column(name = "appointment_status")
+    private AppointmentStatus appointmentStatus;
 
 
 }

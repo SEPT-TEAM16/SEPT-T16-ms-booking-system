@@ -3,6 +3,7 @@ package com.rmit.septt16msbookingsystem.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Data
 @Immutable
 @Table(name = "doctors")
 @Subselect("SELECT * from users WHERE role LIKE 'DOCTOR'")
