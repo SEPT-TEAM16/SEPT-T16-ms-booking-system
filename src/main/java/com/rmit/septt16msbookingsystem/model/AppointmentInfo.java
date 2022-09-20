@@ -13,21 +13,27 @@ public class AppointmentInfo {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "id")
-    private String appointmentId;
+    @Column(name = "appt_id")
+    private Integer appointmentId;
 
-    @Column(name="appt_date")
+    @Column(name="appt_start_date")
     private Date appointmentStartDate;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id", nullable=false)
-    private Patient patient;
+    @Column(name="appt_end_date")
+    private Date appointmentEndDate;
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable=false)
-    private Doctor doctor;
+//    @ManyToOne
+//    @JoinColumn(name = "patient_id", nullable=false)
+    @Column(name="patient_id")
+    private Integer patientId;
 
-    @Column(name = "appointment_status")
+//    @ManyToOne
+//    @JoinColumn(name = "doctor_id", nullable=false)
+    @Column(name="doctor_id")
+    private Integer doctorId;
+
+    @Column(name = "appt_status")
+    @Enumerated(EnumType.STRING)
     private AppointmentStatus appointmentStatus;
 
 
