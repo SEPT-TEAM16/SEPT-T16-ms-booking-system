@@ -5,6 +5,7 @@ import com.rmit.septt16msbookingsystem.model.Doctor;
 import com.rmit.septt16msbookingsystem.model.DoctorAvailability;
 import com.rmit.septt16msbookingsystem.repository.AppointmentInfoRepository;
 import com.rmit.septt16msbookingsystem.repository.DoctorAvailabilityRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BookingService {
 
@@ -22,7 +24,6 @@ public class BookingService {
     @Autowired
     AppointmentInfoRepository appointmentInfoRepository;
 
-    Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     public AppointmentInfo saveNewAppointmentDetails(AppointmentInfo appointmentInfo) {
         log.info("Saving appointment details with userInfo={}", appointmentInfo.toString());
