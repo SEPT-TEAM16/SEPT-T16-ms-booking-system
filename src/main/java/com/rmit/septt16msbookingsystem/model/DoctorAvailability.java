@@ -15,7 +15,7 @@ public class DoctorAvailability {
     private String doctorAvailabilityId;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable=false)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "user_id")
     private Doctor doctor;
 
     @Column(name="start_time")

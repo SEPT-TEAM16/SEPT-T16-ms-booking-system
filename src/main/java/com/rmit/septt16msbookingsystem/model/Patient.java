@@ -10,14 +10,14 @@ import java.util.Date;
 
 @Entity
 @Immutable
+//@Subselect("SELECT * FROM patients")
 @Table(name = "patients")
-@Subselect("SELECT * from users WHERE role LIKE 'PATIENT'")
 public class Patient {
 
 
     @Id
-    @Column(name = "patient_id")
-    private Integer patientId;
+    @Column(name = "user_id")
+    private Integer userId;
 
     @Column(name="email")
     private String email;
