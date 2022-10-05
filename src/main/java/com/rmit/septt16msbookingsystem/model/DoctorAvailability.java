@@ -2,15 +2,20 @@ package com.rmit.septt16msbookingsystem.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Data
-//@Builder
+@Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "doctor_availability")

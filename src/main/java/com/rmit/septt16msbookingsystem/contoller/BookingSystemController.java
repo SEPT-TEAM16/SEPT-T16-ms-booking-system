@@ -3,6 +3,7 @@ package com.rmit.septt16msbookingsystem.contoller;
 import com.rmit.septt16msbookingsystem.model.AppointmentInfo;
 import com.rmit.septt16msbookingsystem.model.Doctor;
 import com.rmit.septt16msbookingsystem.model.DoctorAvailability;
+import com.rmit.septt16msbookingsystem.model.DoctorSchedule;
 import com.rmit.septt16msbookingsystem.repository.AppointmentInfoRepository;
 import com.rmit.septt16msbookingsystem.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,8 +33,17 @@ public class BookingSystemController {
     }
 
     @PostMapping(path="/create-doc-availability")
-        public ResponseEntity<DoctorAvailability> createDoctorAvailability(@RequestBody DoctorAvailability[] doctorAvailabilities) {
-        return null;
+        public ResponseEntity<List<DoctorAvailability>> createDoctorAvailability(@RequestBody DoctorSchedule doctorSchedule) {
+        return new ResponseEntity<>(doctorSchedule
+                .getSchedule()
+                .stream()
+                .map(scheduleStartEndPair -> {
+                    return bookingService.saveDoctorAvailability(DoctorAvailability.builder()
+                            .doctorId(doctorSchedule.getDoctorId())
+                            .doctorAvailabilityStartTime(scheduleStartEndPair.getStart())
+                            .doctorAvailabilityEndTime(scheduleStartEndPair.getEnd())
+                            .build());
+        }).collect(Collectors.toList()), HttpStatus.OK);
     }
 
 }
