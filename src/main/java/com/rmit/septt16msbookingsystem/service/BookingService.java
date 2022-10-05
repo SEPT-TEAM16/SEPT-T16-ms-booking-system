@@ -35,7 +35,7 @@ public class BookingService {
         Optional<List<DoctorAvailability>> availableDoctors = Optional.ofNullable(doctorAvailabilityRepository.findAllByDoctorAvailabilityStartTime(date));
 
        return availableDoctors.map(docList -> docList.stream()
-               .map(DoctorAvailability::getDoctor)
+               .map(DoctorAvailability::getDoctorId)
                .collect(Collectors.toList()))
                .orElse(Collections.EMPTY_LIST);
     }
@@ -45,6 +45,11 @@ public class BookingService {
         final Integer ONE_MIN_MILLIS = 60000;
         Date appointmentEndDate = new Date(appointmentInfo.getAppointmentStartDate().getTime()+(APPOINTMENT_TIME_MINS*ONE_MIN_MILLIS));
         appointmentInfo.setAppointmentEndDate(appointmentEndDate);
+    }
+
+    public DoctorAvailability saveDoctorAvailability(DoctorAvailability doctorAvailability) {
+        log.info("Saving doctor availability details with userInfo={}", doctorAvailability.toString());
+        return doctorAvailabilityRepository.save(doctorAvailability);
     }
 
 }
