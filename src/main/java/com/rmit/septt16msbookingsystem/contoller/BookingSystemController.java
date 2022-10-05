@@ -45,7 +45,7 @@ public class BookingSystemController {
                 .stream()
                 .map(scheduleStartEndPair -> {
                     return bookingService.saveDoctorAvailability(DoctorAvailability.builder()
-                            .doctorId(doctorSchedule.getDoctorId())
+                            .doctor(doctorSchedule.getDoctor())
                             .doctorAvailabilityStartTime(scheduleStartEndPair.getStart())
                             .doctorAvailabilityEndTime(scheduleStartEndPair.getEnd())
                             .build());

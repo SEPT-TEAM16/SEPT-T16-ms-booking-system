@@ -18,19 +18,19 @@ public class SeptT16MsBookingSystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(SeptT16MsBookingSystemApplication.class, args);
     }
-
+/*
     @Bean
     CommandLineRunner run(BookingService bookingService) {
         return args -> {
             bookingService.saveDoctorAvailability(DoctorAvailability.builder() // Monday
                     .doctorAvailabilityId(1)
-                    .doctorId(35)
+                    .doctor(Doctor doc = new Doctor())
                     .doctorAvailabilityStartTime(Date.from(OffsetDateTime.parse ("2022-10-10T09:00:00+10:00").toInstant()))
                     .doctorAvailabilityEndTime(Date.from(OffsetDateTime.parse ("2022-10-10T17:00:00+10:00").toInstant()))
                     .build());
             bookingService.saveDoctorAvailability(DoctorAvailability.builder() // Tuesday
                     .doctorAvailabilityId(2)
-                    .doctorId(35)
+                    .doctor(35)
                     .doctorAvailabilityStartTime(Date.from(OffsetDateTime.parse ("2022-10-11T09:00:00+10:00").toInstant()))
                     .doctorAvailabilityEndTime(Date.from(OffsetDateTime.parse ("2022-10-11T17:00:00+10:00").toInstant()))
                     .build());
@@ -54,5 +54,5 @@ public class SeptT16MsBookingSystemApplication {
                     .build());
         };
     }
-
+*/
 }

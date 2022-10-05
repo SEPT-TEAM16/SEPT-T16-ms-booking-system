@@ -5,12 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -25,10 +20,9 @@ public class DoctorAvailability {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer doctorAvailabilityId;
 
-    //@ManyToOne
-    //@JoinColumn(name = "doctor_id", nullable=false)
-    @Column(name="doctor_id")
-    private Integer doctorId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "user_id")
+    private Doctor doctor;
 
     @Column(name="start_time")
     private Date doctorAvailabilityStartTime;
