@@ -21,13 +21,37 @@ public class SeptT16MsBookingSystemApplication {
 
     @Bean
     CommandLineRunner run(BookingService bookingService) {
-        //DoctorAvailability.builder().
         return args -> {
-            bookingService.saveDoctorAvailability(new DoctorAvailability(
-                    1,
-                    35,
-                    Date.from(OffsetDateTime.parse (  "2022-09-28T08:30:00+10:00").toInstant()),
-                    Date.from(OffsetDateTime.parse (  "2022-09-28T20:30:00+10:00").toInstant())));
+            bookingService.saveDoctorAvailability(DoctorAvailability.builder() // Monday
+                    .doctorAvailabilityId(1)
+                    .doctorId(35)
+                    .doctorAvailabilityStartTime(Date.from(OffsetDateTime.parse ("2022-10-10T09:00:00+10:00").toInstant()))
+                    .doctorAvailabilityEndTime(Date.from(OffsetDateTime.parse ("2022-10-10T17:00:00+10:00").toInstant()))
+                    .build());
+            bookingService.saveDoctorAvailability(DoctorAvailability.builder() // Tuesday
+                    .doctorAvailabilityId(2)
+                    .doctorId(35)
+                    .doctorAvailabilityStartTime(Date.from(OffsetDateTime.parse ("2022-10-11T09:00:00+10:00").toInstant()))
+                    .doctorAvailabilityEndTime(Date.from(OffsetDateTime.parse ("2022-10-11T17:00:00+10:00").toInstant()))
+                    .build());
+            bookingService.saveDoctorAvailability(DoctorAvailability.builder() // Wednesday
+                    .doctorAvailabilityId(3)
+                    .doctorId(35)
+                    .doctorAvailabilityStartTime(Date.from(OffsetDateTime.parse ("2022-10-12T09:00:00+10:00").toInstant()))
+                    .doctorAvailabilityEndTime(Date.from(OffsetDateTime.parse ("2022-10-12T17:00:00+10:00").toInstant()))
+                    .build());
+            bookingService.saveDoctorAvailability(DoctorAvailability.builder() // Thursday
+                    .doctorAvailabilityId(4)
+                    .doctorId(35)
+                    .doctorAvailabilityStartTime(Date.from(OffsetDateTime.parse ("2022-10-13T09:00:00+10:00").toInstant()))
+                    .doctorAvailabilityEndTime(Date.from(OffsetDateTime.parse ("2022-10-13T17:00:00+10:00").toInstant()))
+                    .build());
+            bookingService.saveDoctorAvailability(DoctorAvailability.builder() // Friday
+                    .doctorAvailabilityId(5)
+                    .doctorId(35)
+                    .doctorAvailabilityStartTime(Date.from(OffsetDateTime.parse ("2022-10-14T09:00:00+10:00").toInstant()))
+                    .doctorAvailabilityEndTime(Date.from(OffsetDateTime.parse ("2022-10-14T17:00:00+10:00").toInstant()))
+                    .build());
         };
     }
 
