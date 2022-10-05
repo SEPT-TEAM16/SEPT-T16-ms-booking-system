@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,8 +34,9 @@ public class BookingSystemController {
     }
 
     @GetMapping(path="/get-timeslots/{date}")
-    public List<Doctor> getAvailableDoctorsByDatetime(@PathVariable Date date) {
-        return bookingService.getDoctorsListByTime(date);
+    public List<Doctor> getAvailableDoctorsByDatetime(@PathVariable String date) {
+        return bookingService.getDoctorsListByTime(Date.from(OffsetDateTime.parse(date)
+                .toInstant()));
     }
 
     @PostMapping(path="/create-doc-availability")

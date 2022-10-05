@@ -38,12 +38,21 @@ public class BookingService {
     }
 
     public List<Doctor> getDoctorsListByTime(final Date date) {
-        Optional<List<DoctorAvailability>> availableDoctors = Optional.ofNullable(doctorAvailabilityRepository.findAllByDoctorAvailabilityStartTime(date));
+        // Date can be between start and end doctor availabilities
+        // but must also not be occupied by exisitng appointment... TODO
 
-       return availableDoctors.map(docList -> docList.stream()
-               .map(DoctorAvailability::getDoctorId)
-               .collect(Collectors.toList()))
-               .orElse(Collections.EMPTY_LIST);
+        return doctorAvailabilityRepository.findAll()
+                .stream()
+                .map(docAvailability -> // Between dates in doctorAvailability repository
+                        doctorAvailabilityRepository.getAllBetweenDates(date)
+                .map(da -> da.stream()
+                        .map(availability -> // Between dates in appointmentInfo repository
+                                appointmentInfoRepository.getAllNotBetweenDates(date))
+                        .flatMap(List::stream)
+                        .collect(Collectors.toList()))
+                .flatMap(List::stream)
+                .map(AppointmentInfo::getDoctor)
+                .collect(Collectors.toList());
     }
 
     private void setAppointmentEndDate(AppointmentInfo appointmentInfo) {
