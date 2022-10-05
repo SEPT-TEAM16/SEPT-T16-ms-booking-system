@@ -22,15 +22,13 @@ public class AppointmentInfo {
     @Column(name="appt_end_date")
     private Date appointmentEndDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "patient_id", nullable=false)
-    @Column(name="patient_id")
-    private Integer patientId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id", referencedColumnName = "user_id")
+    private Patient patient;
 
-//    @ManyToOne
-//    @JoinColumn(name = "doctor_id", nullable=false)
-    @Column(name="doctor_id")
-    private Integer doctorId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "user_id")
+    private Doctor doctor;
 
     @Column(name = "appt_status")
     @Enumerated(EnumType.STRING)

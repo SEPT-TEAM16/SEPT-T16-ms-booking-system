@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
+import org.hibernate.annotations.Synchronize;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,13 +14,13 @@ import java.util.Date;
 @Entity
 @Data
 @Immutable
+//@Subselect("SELECT * FROM doctors")
 @Table(name = "doctors")
-@Subselect("SELECT * from users WHERE role LIKE 'DOCTOR'")
 public class Doctor {
 
     @Id
-    @Column(name = "doctor_id")
-    private Integer doctorId;
+    @Column(name = "user_id")
+    private Integer userId;
 
     @Column(name="email")
     private String email;
