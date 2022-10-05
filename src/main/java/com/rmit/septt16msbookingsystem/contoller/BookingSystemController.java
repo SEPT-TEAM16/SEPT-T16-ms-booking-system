@@ -39,8 +39,7 @@ public class BookingSystemController {
 
     @PostMapping(path="/create-doc-availability")
         public ResponseEntity<List<DoctorAvailability>> createDoctorAvailability(@RequestBody DoctorSchedule doctorSchedule) {
-        return new ResponseEntity<>(doctorSchedule
-                .getSchedule()
+        return new ResponseEntity<>(doctorSchedule.getSchedule()
                 .stream()
                 .map(scheduleStartEndPair -> {
                     return bookingService.saveDoctorAvailability(DoctorAvailability.builder()
