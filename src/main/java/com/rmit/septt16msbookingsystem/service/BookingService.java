@@ -41,7 +41,7 @@ public class BookingService {
         Optional<List<DoctorAvailability>> availableDoctors = Optional.ofNullable(doctorAvailabilityRepository.findAllByDoctorAvailabilityStartTime(date));
 
        return availableDoctors.map(docList -> docList.stream()
-               .map(DoctorAvailability::getDoctorId)
+               .map(DoctorAvailability::getDoctor)
                .collect(Collectors.toList()))
                .orElse(Collections.EMPTY_LIST);
     }
