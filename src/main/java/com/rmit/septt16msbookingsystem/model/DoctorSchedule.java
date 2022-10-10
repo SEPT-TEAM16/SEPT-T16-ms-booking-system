@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class DoctorSchedule {
 
-    private Integer doctorId;
+    private Doctor doctor;
 
     private List<ScheduleStartEndPair> schedule;
 }
