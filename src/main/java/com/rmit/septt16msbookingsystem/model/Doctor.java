@@ -15,7 +15,6 @@ import java.util.Date;
 @Entity
 @Data
 @Immutable
-//@Subselect("SELECT * FROM doctors")
 @Table(name = "doctors")
 public class Doctor {
 

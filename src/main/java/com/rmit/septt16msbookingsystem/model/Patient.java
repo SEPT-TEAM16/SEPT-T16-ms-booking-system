@@ -2,6 +2,8 @@ package com.rmit.septt16msbookingsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rmit.septt16msbookingsystem.constants.AppRole;
+import lombok.Data;
+import lombok.Getter;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
@@ -10,8 +12,8 @@ import java.util.Date;
 
 
 @Entity
+@Getter
 @Immutable
-//@Subselect("SELECT * FROM patients")
 @Table(name = "patients")
 public class Patient {
 
