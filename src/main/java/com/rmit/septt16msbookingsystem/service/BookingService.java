@@ -66,4 +66,19 @@ public class BookingService {
         return doctorAvailabilityRepository.save(doctorAvailability);
     }
 
+    public List<AppointmentInfo> getAppointmentsByUserId(final Integer userId) {
+        List<AppointmentInfo> appointmentInfoList = new ArrayList<>();
+        appointmentInfoRepository.findAll().forEach(appointmentInfoList::add);
+
+        return appointmentInfoList.stream()
+                .filter(appt -> appt.getDoctor()
+                        .getUserId()
+                        .equals(userId)
+                || appt.getPatient()
+                        .getUserId()
+                        .equals(userId))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 }

@@ -52,13 +52,19 @@ public class BookingSystemController {
         return bookingService.getDoctorsListByTime(parsedDate);
     }
 
+    @GetMapping(path="/get-appointments/{user_id}")
+    public ResponseEntity<List<AppointmentInfo>> getAppointmentsForUser(@PathVariable Integer user_id) {
+        log.info("Retrieving all appointments for user with user_id={}", user_id);
+        return new ResponseEntity<>(bookingService.getAppointmentsByUserId(user_id), HttpStatus.OK);
+    }
+
     @PostMapping(path="/create-doc-availability")
         public ResponseEntity<List<DoctorAvailability>> createDoctorAvailability(@RequestBody DoctorSchedule doctorSchedule) {
         List<Doctor> doctorList = new ArrayList<>();
         doctorRepository.findAll().forEach(doctorList::add);
         return new ResponseEntity<>(doctorSchedule.getSchedule()
                 .stream()
-                .map(scheduleStartEndPair -> { // doctorRepository.findAllById(doctorSchedule.getDoctorId()).
+                .map(scheduleStartEndPair -> {
                     return bookingService.saveDoctorAvailability(DoctorAvailability.builder()
                             .doctor(doctorList.stream()
                                     .filter(user -> user.getUserId().equals(doctorSchedule.getDoctorId()))
