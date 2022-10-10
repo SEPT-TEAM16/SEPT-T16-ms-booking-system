@@ -5,6 +5,7 @@ import com.rmit.septt16msbookingsystem.model.Doctor;
 import com.rmit.septt16msbookingsystem.model.DoctorAvailability;
 import com.rmit.septt16msbookingsystem.model.DoctorSchedule;
 import com.rmit.septt16msbookingsystem.repository.AppointmentInfoRepository;
+import com.rmit.septt16msbookingsystem.repository.DoctorRepository;
 import com.rmit.septt16msbookingsystem.service.BookingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +33,9 @@ public class BookingSystemController {
 
     @Autowired
     BookingService bookingService;
+
+    @Autowired
+    DoctorRepository doctorRepository;
 
     @PostMapping(path="/create-appointment")
     public ResponseEntity<AppointmentInfo> createNewAppointment(@RequestBody AppointmentInfo appointmentInfo) {
@@ -49,11 +54,16 @@ public class BookingSystemController {
 
     @PostMapping(path="/create-doc-availability")
         public ResponseEntity<List<DoctorAvailability>> createDoctorAvailability(@RequestBody DoctorSchedule doctorSchedule) {
+        List<Doctor> doctorList = new ArrayList<>();
+        doctorRepository.findAll().forEach(doctorList::add);
         return new ResponseEntity<>(doctorSchedule.getSchedule()
                 .stream()
-                .map(scheduleStartEndPair -> {
+                .map(scheduleStartEndPair -> { // doctorRepository.findAllById(doctorSchedule.getDoctorId()).
                     return bookingService.saveDoctorAvailability(DoctorAvailability.builder()
-                            .doctor(doctorSchedule.getDoctor())
+                            .doctor(doctorList.stream()
+                                    .filter(user -> user.getUserId().equals(doctorSchedule.getDoctorId()))
+                                    .findAny()
+                                    .get())
                             .doctorAvailabilityStartTime(scheduleStartEndPair.getStart())
                             .doctorAvailabilityEndTime(scheduleStartEndPair.getEnd())
                             .build());
