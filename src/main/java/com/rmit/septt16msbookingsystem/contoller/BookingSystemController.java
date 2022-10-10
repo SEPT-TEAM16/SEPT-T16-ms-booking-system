@@ -6,7 +6,9 @@ import com.rmit.septt16msbookingsystem.model.DoctorAvailability;
 import com.rmit.septt16msbookingsystem.model.DoctorSchedule;
 import com.rmit.septt16msbookingsystem.repository.AppointmentInfoRepository;
 import com.rmit.septt16msbookingsystem.service.BookingService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.OffsetDateTime;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@Slf4j
 @RequestMapping("/api/v1")
 public class BookingSystemController {
 
@@ -34,9 +38,13 @@ public class BookingSystemController {
     }
 
     @GetMapping(path="/get-timeslots/{date}")
-    public List<Doctor> getAvailableDoctorsByDatetime(@PathVariable String date) {
-        return bookingService.getDoctorsListByTime(Date.from(OffsetDateTime.parse(date)
-                .toInstant()));
+    public List<Doctor> getAvailableDoctorsByDatetime(@PathVariable String date) throws ParseException {
+        log.info("Date being passed to /get-timeslots/{date} endpoint={}", date);
+        String newDate = date.toString().replace('T', ' ');
+        newDate = newDate.substring(0, newDate.length() - 1);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date parsedDate = formatter.parse(newDate);
+        return bookingService.getDoctorsListByTime(parsedDate);
     }
 
     @PostMapping(path="/create-doc-availability")

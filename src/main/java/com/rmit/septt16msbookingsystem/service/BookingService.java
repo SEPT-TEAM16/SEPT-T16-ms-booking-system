@@ -11,10 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.OffsetDateTime;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.rmit.septt16msbookingsystem.constants.Constants.APPOINTMENT_TIME_MINS;
@@ -38,20 +37,22 @@ public class BookingService {
     }
 
     public List<Doctor> getDoctorsListByTime(final Date date) {
-        // Date can be between start and end doctor availabilities
-        // but must also not be occupied by exisitng appointment... TODO
+        log.info("Retrieving list of doctors by date and time with datetime={}", date);
+        List<AppointmentInfo> appointmentInfoList = new ArrayList<>();
+        appointmentInfoRepository.findAll().forEach(appointmentInfoList::add);
+        List<Doctor> docList = appointmentInfoList.stream()
+                .filter(s -> (s.getAppointmentStartDate().before(date) || s.getAppointmentStartDate().equals(date))
+                        && (s.getAppointmentEndDate().after(date) || s.getAppointmentEndDate().equals(date)))
+                .map(apptInfo -> apptInfo.getDoctor())
+                .distinct()
+                .collect(Collectors.toList());
 
         return doctorAvailabilityRepository.findAll()
                 .stream()
-                .map(docAvailability -> // Between dates in doctorAvailability repository
-                        doctorAvailabilityRepository.getAllBetweenDates(date)
-                .map(da -> da.stream()
-                        .map(availability -> // Between dates in appointmentInfo repository
-                                appointmentInfoRepository.getAllNotBetweenDates(date))
-                        .flatMap(List::stream)
-                        .collect(Collectors.toList()))
-                .flatMap(List::stream)
-                .map(AppointmentInfo::getDoctor)
+                .filter(docAvailability -> (docAvailability.getDoctorAvailabilityStartTime().before(date) || docAvailability.getDoctorAvailabilityStartTime().equals(date))
+                        && (docAvailability.getDoctorAvailabilityEndTime().after(date) || docAvailability.getDoctorAvailabilityEndTime().equals(date)))
+                .map(docAvailability -> docAvailability.getDoctor())
+                .filter(doc -> !docList.contains(doc))
                 .collect(Collectors.toList());
     }
 

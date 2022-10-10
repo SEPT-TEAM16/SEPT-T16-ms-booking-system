@@ -13,8 +13,4 @@ import java.util.List;
 @Repository
 public interface AppointmentInfoRepository extends CrudRepository<AppointmentInfo, Integer> {
 
-    @Query(value = "select * from appointments where NOT :dateToCheck BETWEEN :startDate AND :endDate",
-            nativeQuery = true)
-    public List<AppointmentInfo> getAllNotBetweenDates(@Param("dateToCheck") Date dateToCheck, @Param("startDate")Date startDate, @Param("endDate")Date endDate);
-
 }
