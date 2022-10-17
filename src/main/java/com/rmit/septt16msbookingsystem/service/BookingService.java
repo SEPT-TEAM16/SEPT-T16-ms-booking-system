@@ -3,8 +3,10 @@ package com.rmit.septt16msbookingsystem.service;
 import com.rmit.septt16msbookingsystem.model.AppointmentInfo;
 import com.rmit.septt16msbookingsystem.model.Doctor;
 import com.rmit.septt16msbookingsystem.model.DoctorAvailability;
+import com.rmit.septt16msbookingsystem.model.DoctorSchedule;
 import com.rmit.septt16msbookingsystem.repository.AppointmentInfoRepository;
 import com.rmit.septt16msbookingsystem.repository.DoctorAvailabilityRepository;
+import com.rmit.septt16msbookingsystem.repository.DoctorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,9 @@ public class BookingService {
 
     @Autowired
     AppointmentInfoRepository appointmentInfoRepository;
+
+    @Autowired
+    DoctorRepository doctorRepository;
 
 
     public AppointmentInfo saveNewAppointmentDetails(AppointmentInfo appointmentInfo) {
@@ -79,6 +84,21 @@ public class BookingService {
                         .equals(userId))
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    public List<DoctorAvailability> createNewAvailability(DoctorSchedule doctorSchedule) {
+        List<Doctor> doctorList = new ArrayList<>();
+        doctorRepository.findAll().forEach(doctorList::add);
+        return doctorSchedule.getSchedule()
+                .stream()
+                .map(scheduleStartEndPair -> saveDoctorAvailability(DoctorAvailability.builder()
+                        .doctor(doctorList.stream()
+                                .filter(user -> user.getUserId().equals(doctorSchedule.getDoctorId()))
+                                .findAny()
+                                .get())
+                        .doctorAvailabilityStartTime(scheduleStartEndPair.getStart())
+                        .doctorAvailabilityEndTime(scheduleStartEndPair.getEnd())
+                        .build())).collect(Collectors.toList());
     }
 
 }
