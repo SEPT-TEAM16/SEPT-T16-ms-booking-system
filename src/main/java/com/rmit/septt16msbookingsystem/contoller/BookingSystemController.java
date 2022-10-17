@@ -60,20 +60,8 @@ public class BookingSystemController {
 
     @PostMapping(path="/create-doc-availability")
         public ResponseEntity<List<DoctorAvailability>> createDoctorAvailability(@RequestBody DoctorSchedule doctorSchedule) {
-        List<Doctor> doctorList = new ArrayList<>();
-        doctorRepository.findAll().forEach(doctorList::add);
-        return new ResponseEntity<>(doctorSchedule.getSchedule()
-                .stream()
-                .map(scheduleStartEndPair -> {
-                    return bookingService.saveDoctorAvailability(DoctorAvailability.builder()
-                            .doctor(doctorList.stream()
-                                    .filter(user -> user.getUserId().equals(doctorSchedule.getDoctorId()))
-                                    .findAny()
-                                    .get())
-                            .doctorAvailabilityStartTime(scheduleStartEndPair.getStart())
-                            .doctorAvailabilityEndTime(scheduleStartEndPair.getEnd())
-                            .build());
-        }).collect(Collectors.toList()), HttpStatus.OK);
+        log.info("Creating and storing new schedule for doctor with id={}", doctorSchedule.getDoctorId());
+        return new ResponseEntity<>(bookingService.createNewAvailability(doctorSchedule), HttpStatus.OK);
     }
 
 }
