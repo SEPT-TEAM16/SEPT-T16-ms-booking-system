@@ -1,9 +1,7 @@
 package com.rmit.septt16msbookingsystem.model;
 
 import com.rmit.septt16msbookingsystem.constants.AppointmentStatus;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +12,7 @@ import static com.rmit.septt16msbookingsystem.constants.Constants.ONE_MIN_MILLIS
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
 @Table(name = "appointments")
 public class AppointmentInfo {
     public AppointmentInfo() {
