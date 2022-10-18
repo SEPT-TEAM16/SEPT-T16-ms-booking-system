@@ -6,6 +6,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
+import static com.rmit.septt16msbookingsystem.constants.Constants.APPOINTMENT_TIME_MINS;
+import static com.rmit.septt16msbookingsystem.constants.Constants.ONE_MIN_MILLIS;
+
 @Entity
 @Data
 @Table(name = "appointments")
@@ -34,5 +37,9 @@ public class AppointmentInfo {
     @Enumerated(EnumType.STRING)
     private AppointmentStatus appointmentStatus;
 
+    public void setAppointmentEndDate(Date appointmentStartDate) {
+        Date appointmentEndDate = new Date(appointmentStartDate.getTime()+(APPOINTMENT_TIME_MINS * ONE_MIN_MILLIS));
+        this.appointmentEndDate = appointmentEndDate;
+    }
 
 }

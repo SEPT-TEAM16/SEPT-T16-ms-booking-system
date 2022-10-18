@@ -37,7 +37,7 @@ public class BookingService {
 
     public AppointmentInfo saveNewAppointmentDetails(AppointmentInfo appointmentInfo) {
         log.info("Saving appointment details with userInfo={}", appointmentInfo.toString());
-        setAppointmentEndDate(appointmentInfo);
+        appointmentInfo.setAppointmentEndDate(appointmentInfo.getAppointmentStartDate());
         return appointmentInfoRepository.save(appointmentInfo);
     }
 
@@ -59,11 +59,6 @@ public class BookingService {
                 .map(docAvailability -> docAvailability.getDoctor())
                 .filter(doc -> !docList.contains(doc))
                 .collect(Collectors.toList());
-    }
-
-    private void setAppointmentEndDate(AppointmentInfo appointmentInfo) {
-        Date appointmentEndDate = new Date(appointmentInfo.getAppointmentStartDate().getTime()+(APPOINTMENT_TIME_MINS * ONE_MIN_MILLIS));
-        appointmentInfo.setAppointmentEndDate(appointmentEndDate);
     }
 
     public DoctorAvailability saveDoctorAvailability(DoctorAvailability doctorAvailability) {
